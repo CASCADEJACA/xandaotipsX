@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Xandão Tips Futebol</title>
+  <meta name="theme-color" content="#07111f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Xandão Tips" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="assets/icon-180.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <div class="hero-top">
+        <div class="brand-wrap">
+          <img class="brand-icon" src="assets/icon-192.png" alt="Logo Xandão Tips" />
+          <div>
+            <h1>Xandão Tips Futebol</h1>
+            <p class="tagline">Xandão o Terror das Bets</p>
+          </div>
+        </div>
+        <button id="installBtn" class="glass-btn hidden">Instalar no iPhone</button>
+      </div>
+      <p class="restricted">Uso restrito para amigos de Xandão</p>
+      <p class="subcopy">Painel em estilo futurista para iPhone, com dados reais de agenda, placares, notícias e análise automática de partidas de futebol.</p>
+      <div class="notice warning">
+        <strong>Transparência:</strong> este app usa dados reais de partidas e notícias. Mercados avançados como cartões, escanteios, laterais, tiros de meta, impedimentos e chutes por tempo exigem feed premium específico; por isso, nesta versão iPhone eles só aparecem quando houver dados suficientes, e o app não inventa números.
+      </div>
+    </header>
+
+    <section class="panel controls">
+      <div class="toolbar">
+        <div class="date-presets">
+          <button class="pill active" data-range="today">Hoje</button>
+          <button class="pill" data-range="tomorrow">Próximo dia</button>
+          <button class="pill" data-range="week">Semana</button>
+          <button class="pill" data-range="month">Mês</button>
+        </div>
+        <button id="refreshBtn" class="primary-btn">Atualizar jogos reais</button>
+      </div>
+
+      <div class="section-title">Ligas</div>
+      <div id="leagueChips" class="chips"></div>
+
+      <details class="settings">
+        <summary>Configurações de dados</summary>
+        <div class="settings-grid">
+          <label>
+            Token football-data.org (opcional)
+            <input id="fdToken" type="password" placeholder="Cole seu X-Auth-Token" />
+          </label>
+          <label>
+            Token de feed premium avançado (opcional)
+            <input id="advToken" type="password" placeholder="API premium para mercados avançados" />
+          </label>
+        </div>
+        <p class="tiny">O token do football-data.org melhora cobertura de tabela, elenco e contexto. Mercados avançados exigem fornecedor específico.</p>
+        <button id="saveSettingsBtn" class="secondary-btn">Salvar tokens no aparelho</button>
+      </details>
+    </section>
+
+    <section class="panel summary-strip">
+      <div class="metric-card"><span>Jogos carregados</span><strong id="gamesLoaded">0</strong></div>
+      <div class="metric-card"><span>Selecionados</span><strong id="gamesSelected">0</strong></div>
+      <div class="metric-card"><span>Melhores análises</span><strong id="bestCount">0</strong></div>
+      <div class="metric-card"><span>Bingão</span><strong id="bingaoCount">0</strong></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Jogos reais</h2>
+        <div class="muted" id="loadStatus">Aguardando atualização.</div>
+      </div>
+      <div id="gamesContainer" class="games-grid"></div>
+    </section>
+
+    <section class="panel action-panel">
+      <button id="analyzeBtn" class="primary-btn">Analisar jogos selecionados</button>
+      <button id="buildBingaoBtn" class="secondary-btn">Montar Bingão do Xandão</button>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Análises</h2>
+        <div class="muted">Sugestões automáticas apenas com base em dados reais disponíveis.</div>
+      </div>
+      <div id="analysisContainer" class="analysis-list empty-state">Nenhuma análise ainda.</div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Bingão do Xandão</h2>
+        <div class="muted">Mistura automática dos melhores palpites entre jogos selecionados.</div>
+      </div>
+      <div class="bingao-controls">
+        <label>Perfil
+          <select id="bingaoProfile">
+            <option value="conservador">Conservador</option>
+            <option value="moderado" selected>Moderado</option>
+            <option value="agressivo">Agressivo</option>
+          </select>
+        </label>
+        <label>Quantidade de sugestões
+          <select id="bingaoSize">
+            <option>5</option><option>6</option><option>7</option><option selected>8</option><option>9</option><option>10</option>
+          </select>
+        </label>
+      </div>
+      <div id="bingaoContainer" class="analysis-list empty-state">Ainda não montado.</div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Ajuda rápida</h2>
+      </div>
+      <div class="help-grid">
+        <div class="help-card"><strong>FT</strong><span>Jogo todo</span></div>
+        <div class="help-card"><strong>1T</strong><span>Primeiro tempo</span></div>
+        <div class="help-card"><strong>2T</strong><span>Segundo tempo</span></div>
+        <div class="help-card"><strong>BTTS</strong><span>Ambas marcam</span></div>
+        <div class="help-card"><strong>Over</strong><span>Mais de</span></div>
+        <div class="help-card"><strong>Under</strong><span>Menos de</span></div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Versão iPhone em formato web app. Para instalar no iPhone: abra a URL no Safari, toque em Compartilhar, escolha <em>Adicionar à Tela de Início</em> e marque <em>Abrir como app</em>.</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
